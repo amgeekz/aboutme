@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geekz • Pembayaran</title>
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/79773348?v=4" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: monospace;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
+    }
+
+    .rounded-box {
+      border: 2px solid black;
+      border-radius: 12px;
+    }
+
+    .payment-button {
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .payment-button:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      background-color: #ffffff;
+    }
+
+    .payment-button .text-black {
+      font-weight: bold;
+      color: #111;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.4s ease-out both;
+    }
+
+    #typing-text::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+    }
+
+    .line-typing {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInLine 0.6s ease forwards;
+    }
+
+    @keyframes fadeInLine {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #toast {
+      animation: popFade 0.3s ease;
+    }
+
+    @keyframes popFade {
+      0% { transform: scale(0.9); opacity: 0; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="text-gray-900">
+  <div id="toast" class="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded hidden z-50 text-sm"></div>
+
+  <!-- Section Intro -->
+  <section id="intro" class="min-h-screen flex flex-col items-center justify-center text-center p-6 space-y-6">
+    <div class="bg-white border-2 border-black rounded-box p-6 max-w-md w-full animate-fade-in-up">
+      <img src="https://avatars.githubusercontent.com/u/79773348?v=4" alt="Profile" class="w-24 h-24 mx-auto rounded-full border-4 border-black mb-4 shadow" />
+      <h1 class="text-3xl font-bold mb-1">Geekz</h1>
+      <div class="text-gray-600 mb-4 text-sm leading-relaxed space-y-1">
+        <p class="line-typing" style="animation-delay: 0.1s;">👨‍💻 Web Developer</p>
+        <p class="line-typing" style="animation-delay: 0.4s;">💸 Topup Game & Aplikasi Premium</p>
+        <p class="line-typing" style="animation-delay: 0.7s;">🖥️ Sewa Panel & Jasa Bot WhatsApp</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-3 mb-4">
+        <a href="https://github.com/amgeekz" target="_blank" class="bg-black text-white text-sm px-3 py-1 rounded-box border-2 border-black">GitHub</a>
+        <a href="https://instagram.com/inodsanjaya" target="_blank" class="bg-pink-300 text-black text-sm px-3 py-1 rounded-box border-2 border-black">Instagram</a>
+        <a href="https://wa.me/6285649455626" target="_blank" class="bg-green-300 text-black text-sm px-3 py-1 rounded-box border-2 border-black">WhatsApp</a>
+        <a href="https://amgeekz.com" target="_blank" class="bg-blue-300 text-black text-sm px-3 py-1 rounded-box border-2 border-black">Topup</a>
+        <a href="https://amgeekz.my.id" target="_blank" class="bg-purple-300 text-black text-sm px-3 py-1 rounded-box border-2 border-black">Panel</a>
+      </div>
+      <button onclick="showPaymentSection()" class="bg-green-300 text-black px-5 py-2 border-2 border-black rounded-box">
+        💳 Lihat Metode Pembayaran
+      </button>
+    </div>
+  </section>
+
+  <!-- Section Payment -->
+  <section id="payment" class="hidden flex flex-col items-center justify-center space-y-4 p-6">
+    <img src="https://avatars.githubusercontent.com/u/79773348?v=4" alt="Profile" class="w-20 h-20 rounded-full border-4 border-black" />
+    <div class="bg-purple-300 p-4 w-full max-w-md text-center rounded-box animate-fade-in-up">
+      <p class="text-lg font-bold">Metode Pembayaran</p>
+    </div>
+    <div id="paymentButtons" class="w-full max-w-md grid grid-cols-2 gap-3 animate-fade-in-up"></div>
+    <div class="text-sm text-gray-700 pt-2 text-center animate-fade-in-up leading-relaxed">
+      💡 <span id="typing-text" class="font-medium"></span><br>
+    </div>
+  </section>
+
+  <!-- QRIS Modal -->
+  <div id="qrisModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-box max-w-sm w-full text-center relative animate-fade-in-up">
+      <button onclick="document.getElementById('qrisModal').classList.add('hidden')" class="absolute top-2 right-3 text-gray-500 hover:text-black">✖</button>
+      <h2 class="text-xl font-semibold mb-4">Scan QRIS</h2>
+      <img id="qrisImage" src="" alt="QRIS" class="w-full rounded-box mb-4">
+      <button onclick="downloadQRIS()" class="bg-green-300 text-black px-4 py-2 border-2 border-black rounded-box">⬇️ Download QRIS</button>
+    </div>
+  </div>
+
+  <!-- Music -->
+  <audio id="bg-music" loop>
+    <source src="caffelatte.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Script -->
+  <script>
+    const CONFIG = {
+      PAYMENT: {
+        BCA: "6630551445",
+        SeaBank: "901726382280",
+        Ewallet: "085649455626",
+        QRIS: "https://files.catbox.moe/se5i9f.jpg"
+      }
+    };
+
+    const data = CONFIG.PAYMENT;
+
+    window.addEventListener('click', function () {
+      const audio = document.getElementById('bg-music');
+      const context = new (window.AudioContext || window.webkitAudioContext)();
+      const source = context.createMediaElementSource(audio);
+      source.connect(context.destination);
+      audio.play();
+    }, { once: true });
+
+    function renderButtons() {
+      const container = document.getElementById('paymentButtons');
+      container.innerHTML = '';
+      const buttons = [
+        { label: "BCA", text: data.BCA, icon: "🏦", color: "bg-yellow-200" },
+        { label: "SeaBank", text: data.SeaBank, icon: "🏦", color: "bg-yellow-200" },
+        { label: "GoPay", text: data.Ewallet, icon: "📱", color: "bg-sky-200" },
+        { label: "ShopeePay", text: data.Ewallet, icon: "🛒", color: "bg-sky-200" },
+        { label: "Dana", text: data.Ewallet, icon: "💰", color: "bg-sky-200" },
+        { label: "QRIS", text: "All Payment", icon: "🔳", color: "bg-green-300", isQRIS: true },
+      ];
+      buttons.forEach(({ label, text, icon, color, isQRIS }) => {
+        const btn = document.createElement("button");
+        btn.className = `payment-button flex flex-col items-center justify-center text-center ${color} p-4 rounded-box w-full border-2 border-black hover:ring-2 hover:ring-black`;
+        btn.innerHTML = `
+          <div class="text-3xl mb-2">${icon}</div>
+          <div class="text-base font-semibold">${label}</div>
+          <div class="text-sm text-black mt-1 truncate">${text}</div>
+        `;
+        btn.onclick = () => {
+          isQRIS ? showQRIS() : copyText(text, label);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function showPaymentSection() {
+      document.getElementById("intro").classList.add("hidden");
+      document.getElementById("payment").classList.remove("hidden");
+      renderButtons();
+    }
+
+    function showQRIS() {
+      document.getElementById("qrisImage").src = data.QRIS;
+      document.getElementById("qrisModal").classList.remove("hidden");
+    }
+
+    function downloadQRIS() {
+      fetch(data.QRIS).then(res => res.blob()).then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "qris.jpg";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+
+    function copyText(text, label) {
+      navigator.clipboard.writeText(text);
+      showToast(`✅ ${label} berhasil disalin!`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.remove("hidden");
+      setTimeout(() => toast.classList.add("hidden"), 2500);
+    }
+
+    const typedTexts = [
+      "Pilih metode pembayaran yang paling mudah buat kamu",
+      "Tekan tombol buat salin nomor otomatis",
+      "QRIS juga bisa, tinggal scan aja!",
+    ];
+
+    let textIndex = 0;
+    let charIndex = 0;
+
+    function typeInstruction() {
+      const display = document.getElementById("typing-text");
+      const currentText = typedTexts[textIndex];
+
+      if (charIndex < currentText.length) {
+        display.innerHTML += currentText.charAt(charIndex++);
+        setTimeout(typeInstruction, 50);
+      } else {
+        setTimeout(() => {
+          display.innerHTML = "";
+          charIndex = 0;
+          textIndex = (textIndex + 1) % typedTexts.length;
+          typeInstruction();
+        }, 2000);
+      }
+    }
+
+    window.addEventListener("load", typeInstruction);
+  </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 text-xs py-6">
+    &copy; 2025 Geekz. All rights reserved.
+  </footer>
+</body>
+</html>
