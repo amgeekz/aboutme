@@ -229,8 +229,30 @@ btn.innerHTML = `
 }
 
 function copyText(text, label) {
-  navigator.clipboard.writeText(text);
-  showToast(`${label} berhasil disalin!`);
+  if (navigator.clipboard && window.isSecureContext) {
+    // Clipboard API tersedia dan aman
+    navigator.clipboard.writeText(text)
+      .then(() => showToast(`${label} berhasil disalin!`))
+      .catch(() => fallbackCopy(text, label));
+  } else {
+    fallbackCopy(text, label);
+  }
+}
+
+function fallbackCopy(text, label) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed"; // agar tidak memicu scroll
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  try {
+    document.execCommand("copy");
+    showToast(`${label} berhasil disalin!`);
+  } catch (err) {
+    alert("❌ Gagal menyalin teks. Silakan salin manual.");
+  }
+  document.body.removeChild(textarea);
 }
 
     const typedTexts = [
