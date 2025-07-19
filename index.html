@@ -76,6 +76,28 @@
   51%, 100% { opacity: 0; }
 }
 
+#toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  padding: 0.75rem 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.9rem;
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
   </style>
 </head>
 <body>
@@ -114,7 +136,9 @@
       <img id="qrisImage" src="" alt="QRIS" class="w-full rounded-box mb-4">
       <button onclick="downloadQRIS()" class="theme-btn">⬇️ Download QRIS</button>
     </div>
-  </div>  <audio id="bg-music" loop>
+  </div>
+  <div id="toast"></div>
+  <audio id="bg-music" loop>
     <source src="caffelatte.mp3" type="audio/mp3">
   </audio>  <script>
     const CONFIG = {
@@ -195,10 +219,19 @@ btn.innerHTML = `
       });
     }
 
-    function copyText(text, label) {
-      navigator.clipboard.writeText(text);
-      alert(`✅ ${label} berhasil disalin!`);
-    }
+    function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.innerHTML = `✅ ${msg}`;
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
+
+function copyText(text, label) {
+  navigator.clipboard.writeText(text);
+  showToast(`${label} berhasil disalin!`);
+}
 
     const typedTexts = [
       "Pilih metode pembayaran yang paling mudah buat kamu",
