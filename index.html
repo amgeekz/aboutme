@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,128 +8,114 @@
   <style>
     body {
       font-family: monospace;
-      background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
-    }
+      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRm5nqWFv4U6TunvUUoWsKk6W6r4tYPqMOhZLluMkY3EsZ-85lkYI0owWFt&s=10') no-repeat center center fixed;
+      background-size: cover;
+      color: #f0f0f0;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }.theme-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
 
-    .rounded-box {
-      border: 2px solid black;
-      border-radius: 12px;
-    }
+.theme-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: inline-block;
+  backdrop-filter: blur(4px);
+}
 
-    .payment-button {
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
+.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 
-    .payment-button:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-      background-color: #ffffff;
-    }
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
 
-    .payment-button .text-black {
-      font-weight: bold;
-      color: #111;
-    }
+.rounded-box {
+  border-radius: 12px;
+}
 
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
+.line-typing {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInLine 0.6s ease forwards;
+}
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+@keyframes fadeInLine {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    .animate-fade-in-up {
-      animation: fadeInUp 0.4s ease-out both;
-    }
+#typing-text::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+}
 
-    #typing-text::after {
-      content: '|';
-      animation: blink 1s step-end infinite;
-    }
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
 
-    .line-typing {
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInLine 0.6s ease forwards;
-    }
-
-    @keyframes fadeInLine {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    #toast {
-      animation: popFade 0.3s ease;
-    }
-
-    @keyframes popFade {
-      0% { transform: scale(0.9); opacity: 0; }
-      50% { transform: scale(1.05); opacity: 1; }
-      100% { transform: scale(1); }
-    }
   </style>
 </head>
-<body class="text-gray-900">
-  <div id="toast" class="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded hidden z-50 text-sm"></div>
-
-  <!-- Section Intro -->
-  <section id="intro" class="min-h-screen flex flex-col items-center justify-center text-center p-6 space-y-6">
-    <div class="bg-white border-2 border-black rounded-box p-6 max-w-md w-full animate-fade-in-up">
-      <img src="https://avatars.githubusercontent.com/u/79773348?v=4" alt="Profile" class="w-24 h-24 mx-auto rounded-full border-4 border-black mb-4 shadow" />
-      <h1 class="text-3xl font-bold mb-1">Geekz</h1>
-      <div class="text-gray-600 mb-4 text-sm leading-relaxed space-y-1">
+<body>
+  <section id="intro" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+    <div class="theme-box max-w-md w-full">
+      <img src="https://avatars.githubusercontent.com/u/79773348?v=4" class="w-24 h-24 mx-auto rounded-full border-4 border-gray-700 mb-4" alt="Profile" />
+      <h1 class="text-3xl font-bold mb-2">Geekz</h1>
+      <div class="text-sm text-gray-300 space-y-1 mb-4">
         <p class="line-typing" style="animation-delay: 0.1s;">👨‍💻 Web Developer</p>
         <p class="line-typing" style="animation-delay: 0.4s;">💸 Topup Game & Aplikasi Premium</p>
         <p class="line-typing" style="animation-delay: 0.7s;">🖥️ Sewa Panel & Jasa Bot WhatsApp</p>
       </div>
-      <div class="flex flex-wrap justify-center gap-3 mb-4">
-        <a href="https://github.com/amgeekz" target="_blank" class="bg-black text-white text-sm px-3 py-1 rounded-box border-2 border-black">GitHub</a>
-        <a href="https://instagram.com/inodsanjaya" target="_blank" class="bg-pink-300 text-black text-sm px-3 py-1 rounded-box border-2 border-black">Instagram</a>
-        <a href="https://wa.me/6285649455626" target="_blank" class="bg-green-300 text-black text-sm px-3 py-1 rounded-box border-2 border-black">WhatsApp</a>
-        <a href="https://amgeekz.com" target="_blank" class="bg-blue-300 text-black text-sm px-3 py-1 rounded-box border-2 border-black">Topup</a>
-        <a href="https://amgeekz.my.id" target="_blank" class="bg-purple-300 text-black text-sm px-3 py-1 rounded-box border-2 border-black">Panel</a>
+      <div class="btn-group">
+        <a href="https://github.com/amgeekz" target="_blank" class="theme-btn">GitHub</a>
+        <a href="https://instagram.com/inodsanjaya" target="_blank" class="theme-btn">Instagram</a>
+        <a href="https://wa.me/6285649455626" target="_blank" class="theme-btn">WhatsApp</a>
+        <a href="https://amgeekz.com" target="_blank" class="theme-btn">Topup</a>
+        <a href="https://amgeekz.my.id" target="_blank" class="theme-btn">Panel</a>
       </div>
-      <button onclick="showPaymentSection()" class="bg-green-300 text-black px-5 py-2 border-2 border-black rounded-box">
-        💳 Lihat Metode Pembayaran
-      </button>
+      <button onclick="showPaymentSection()" class="theme-btn">💳 Lihat Metode Pembayaran</button>
     </div>
-  </section>
-
-  <!-- Section Payment -->
-  <section id="payment" class="hidden flex flex-col items-center justify-center space-y-4 p-6">
-    <img src="https://avatars.githubusercontent.com/u/79773348?v=4" alt="Profile" class="w-20 h-20 rounded-full border-4 border-black" />
-    <div class="bg-purple-300 p-4 w-full max-w-md text-center rounded-box animate-fade-in-up">
-      <p class="text-lg font-bold">Metode Pembayaran</p>
+  </section>  <section id="payment" class="hidden min-h-screen flex flex-col items-center justify-center p-6 text-center">
+    <div class="theme-box max-w-md w-full relative">
+      <button onclick="backToIntro()" class="absolute top-4 right-4 text-gray-300 hover:text-white text-lg font-bold">✖</button>
+      <img src="https://avatars.githubusercontent.com/u/79773348?v=4" class="w-20 h-20 mx-auto rounded-full border-4 border-gray-700 mb-4" alt="Profile" />
+      <h2 class="text-xl font-semibold mb-4">Metode Pembayaran</h2>
+      <div id="paymentButtons" class="w-full max-w-md flex flex-col gap-3"></div>
+      <div class="text-sm text-gray-300 pt-4">
+        💡 <span id="typing-text" class="font-medium"></span>
+      </div>
     </div>
-    <div id="paymentButtons" class="w-full max-w-md grid grid-cols-2 gap-3 animate-fade-in-up"></div>
-    <div class="text-sm text-gray-700 pt-2 text-center animate-fade-in-up leading-relaxed">
-      💡 <span id="typing-text" class="font-medium"></span><br>
-    </div>
-  </section>
-
-  <!-- QRIS Modal -->
-  <div id="qrisModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-box max-w-sm w-full text-center relative animate-fade-in-up">
-      <button onclick="document.getElementById('qrisModal').classList.add('hidden')" class="absolute top-2 right-3 text-gray-500 hover:text-black">✖</button>
+  </section>  <div id="qrisModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="theme-box max-w-sm w-full text-center relative">
+      <button onclick="document.getElementById('qrisModal').classList.add('hidden')" class="absolute top-2 right-3 text-gray-400 hover:text-white">✖</button>
       <h2 class="text-xl font-semibold mb-4">Scan QRIS</h2>
       <img id="qrisImage" src="" alt="QRIS" class="w-full rounded-box mb-4">
-      <button onclick="downloadQRIS()" class="bg-green-300 text-black px-4 py-2 border-2 border-black rounded-box">⬇️ Download QRIS</button>
+      <button onclick="downloadQRIS()" class="theme-btn">⬇️ Download QRIS</button>
     </div>
-  </div>
-
-  <!-- Music -->
-  <audio id="bg-music" loop>
+  </div>  <audio id="bg-music" loop>
     <source src="caffelatte.mp3" type="audio/mp3">
-  </audio>
-
-  <!-- Script -->
-  <script>
+  </audio>  <script>
     const CONFIG = {
       PAYMENT: {
         BCA: "6630551445",
@@ -154,21 +139,26 @@
       const container = document.getElementById('paymentButtons');
       container.innerHTML = '';
       const buttons = [
-        { label: "BCA", text: data.BCA, icon: "🏦", color: "bg-yellow-200" },
-        { label: "SeaBank", text: data.SeaBank, icon: "🏦", color: "bg-yellow-200" },
-        { label: "GoPay", text: data.Ewallet, icon: "📱", color: "bg-sky-200" },
-        { label: "ShopeePay", text: data.Ewallet, icon: "🛒", color: "bg-sky-200" },
-        { label: "Dana", text: data.Ewallet, icon: "💰", color: "bg-sky-200" },
-        { label: "QRIS", text: "All Payment", icon: "🔳", color: "bg-green-300", isQRIS: true },
+        { label: "BCA", text: data.BCA, icon: "🏦" },
+        { label: "SeaBank", text: data.SeaBank, icon: "🏦" },
+        { label: "GoPay", text: data.Ewallet, icon: "📱" },
+        { label: "ShopeePay", text: data.Ewallet, icon: "🛒" },
+        { label: "Dana", text: data.Ewallet, icon: "💰" },
+        { label: "QRIS", text: "All Payment", icon: "🔳", isQRIS: true },
       ];
-      buttons.forEach(({ label, text, icon, color, isQRIS }) => {
+      buttons.forEach(({ label, text, icon, isQRIS }) => {
         const btn = document.createElement("button");
-        btn.className = `payment-button flex flex-col items-center justify-center text-center ${color} p-4 rounded-box w-full border-2 border-black hover:ring-2 hover:ring-black`;
-        btn.innerHTML = `
-          <div class="text-3xl mb-2">${icon}</div>
-          <div class="text-base font-semibold">${label}</div>
-          <div class="text-sm text-black mt-1 truncate">${text}</div>
-        `;
+        btn.className = "theme-btn w-full px-4 py-2 flex items-center justify-between text-sm";
+
+btn.innerHTML = `
+  <div class="flex items-center justify-between w-full">
+    <div class="flex items-center gap-2">
+      <div class="text-xl">${icon}</div>
+      <span class="font-medium text-sm">${label}</span>
+    </div>
+    <span class="text-sm font-mono text-right text-gray-100">${text}</span>
+  </div>
+`;
         btn.onclick = () => {
           isQRIS ? showQRIS() : copyText(text, label);
         };
@@ -181,6 +171,11 @@
       document.getElementById("payment").classList.remove("hidden");
       renderButtons();
     }
+    
+    function backToIntro() {
+  document.getElementById("payment").classList.add("hidden");
+  document.getElementById("intro").classList.remove("hidden");
+}
 
     function showQRIS() {
       document.getElementById("qrisImage").src = data.QRIS;
@@ -201,14 +196,7 @@
 
     function copyText(text, label) {
       navigator.clipboard.writeText(text);
-      showToast(`✅ ${label} berhasil disalin!`);
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById("toast");
-      toast.textContent = msg;
-      toast.classList.remove("hidden");
-      setTimeout(() => toast.classList.add("hidden"), 2500);
+      alert(`✅ ${label} berhasil disalin!`);
     }
 
     const typedTexts = [
@@ -238,11 +226,5 @@
     }
 
     window.addEventListener("load", typeInstruction);
-  </script>
-
-  <!-- Footer -->
-  <footer class="text-center text-gray-500 text-xs py-6">
-    &copy; 2025 Geekz. All rights reserved.
-  </footer>
-</body>
+  </script></body>
 </html>
